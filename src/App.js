@@ -48,6 +48,16 @@ class App extends Component {
   //   super();
   //   this.state = {};
   // }
+  deleteBookState = (index) => {
+    const books = this.state.books;
+    books.splice(index, 1);
+    this.setState({
+      books: books
+    });
+  };
+
+
+
   render() {
     const style = {
       border: "1px solid red",
@@ -56,6 +66,13 @@ class App extends Component {
       color: "white"
     }
 
+    const books = this.state.books.map((book, index) => {
+      return (
+        <Book name={book.name}
+          writer={book.author}
+          delete={() => this.deleteBookState(index)} />
+      );
+    });
 
 
     // let obj = new Component();
@@ -68,10 +85,13 @@ class App extends Component {
         <h2 style={style}>Book Details </h2>
         <button onClick={() => { this.changeBookState("Neneteen Ninety Nine") }}>Change State</button>
         <input type="text" onChange={this.changeWithInputState}></input>
-        <Book name={this.state.books[0].name} author={this.state.books[0].author}
+
+        {books}
+        {/* another way  ------------------------------------ */}
+        {/* <Book name={this.state.books[0].name} author={this.state.books[0].author}
           inputName={this.changeWithInputState} />
         <Book name={this.state.books[1].name} author={this.state.books[1].author}
-          change={this.changeBookState.bind(this, " New Neneteen Ninety Nine")} />
+          change={this.changeBookState.bind(this, " New Neneteen Ninety Nine")} /> */}
 
       </div>
     );
