@@ -1,6 +1,15 @@
 .App {
   text-align: center;
+
 }
+/* .App .Person{
+  display: inline-block;
+  border: 1px solid;
+  width: 150px;
+  padding: 5px;
+  margin: 5px 0;
+} */
+
 
 .App-logo {
   height: 40vmin;
