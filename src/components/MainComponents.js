@@ -2,14 +2,16 @@
 import React, { Component } from "react";
 import books from "../assets/bookslist";
 import BookList from "./lists/BookList";
-import NewBook from './representational/NewBook';
-import { Route, Routes } from 'react-router-dom';
+import BookDetail from "./representational/BookDetail";
+import NewBook from "./representational/NewBook";
+import { Link, Route, Routes, Navigate } from "react-router-dom";
+
 
 class MainComponent extends Component {
     // Functional Components +++++++++++++++++
     // function App() {
     //   return (
-    //     <div className="App">
+    //     <div className ="App">
     //       <h1>Hello World!</h1>
     //       <Person />
     //     </div>
@@ -25,90 +27,102 @@ class MainComponent extends Component {
         super(props);
         this.state = {
             books: books,
-            showbooks: true
+            showbooks: true,
+            selectedBook: null
         }
     }
 
-
-    changeBookState = (newBookName) => {
-        this.setState({
-            books: [
-                { name: newBookName, author: "George Orwell" },
-                { name: "New Book", author: "Dan Brown" },
-            ]
-        });
+    selectedBookHandler = bookId => {
+        const book = this.state.books.filter(book =>
+            book.id === bookId)[0];
+        this.setState({ selectedBook: book })
     }
 
-    changeWithInputState = (event, index) => {
-        // this.setState({
-        //   books: [
-        //     { name: event.target.value, author: "George Orwell" },
-        //     { name: "New Book", author: "Dan Brown" },
-        //   ]
-        // });
+    // changeBookState = (newBookName) => {
+    //     this.setState({
+    //         books: [
+    //             { name: newBookName, author: "George Orwell" },
+    //             { name: "New Book", author: "Dan Brown" },
+    //         ]
+    //     });
+    // }
 
-        // change with seprad operator 
-        const book = {
-            ...this.state.books[index]
-        }
-        book.name = event.target.value;
-        const books = [...this.state.books];
-        books[index] = book;
-        this.setState({ books: books });
-    }
+    // changeWithInputState = (event, index) => {
+    //     // this.setState({
+    //     //   books: [
+    //     //     { name: event.target.value, author: "George Orwell" },
+    //     //     { name: "New Book", author: "Dan Brown" },
+    //     //   ]
+    //     // });
+
+    //     // change with seprad operator 
+    //     const book = {
+    //         ...this.state.books[index]
+    //     }
+    //     book.name = event.target.value;
+    //     const books = [...this.state.books];
+    //     books[index] = book;
+    //     this.setState({ books: books });
+    // }
     // constructor() {
     //   super();
     //   this.state = {};
     // }
-    deleteBookState = (index) => {
-        // const books = this.state.books.slice();
-        const books = [...this.state.books]
-        books.splice(index, 1);
-        this.setState({
-            books: books
-        });
-    };
+    // deleteBookState = (index) => {
+    //     // const books = this.state.books.slice();
+    //     const books = [...this.state.books]
+    //     books.splice(index, 1);
+    //     this.setState({
+    //         books: books
+    //     });
+    // };
 
-    toggleBookState = () => {
-        this.setState({
-            showbooks: !this.state.showbooks
-        });
-    }
+    // toggleBookState = () => {
+    //     this.setState({
+    //         showbooks: !this.state.showbooks
+    //     });
+    // }
 
 
 
     render() {
-        const style = {
-            border: "1px solid red",
-            borderRadius: "5px",
-            backgroundColor: "black",
-            color: "white"
-        }
-        let books = null;
-        if (this.state.showbooks) {
-            books = <BookList books={this.state.books}
-                deleteBookState={this.deleteBookState}
-                changeWithInputState={this.changeWithInputState}
+        // const style = {
+        //     border: "1px solid red",
+        //     borderRadius: "5px",
+        //     backgroundColor: "black",
+        //     color: "white"
+        // }
+        // let books = null;
+        // if (this.state.showbooks) {
+        const books = <BookList books={this.state.books}
+            selectedBookHandler={this.selectedBookHandler}
+        // deleteBookState={this.deleteBookState}
+        // changeWithInputState={this.changeWithInputState}
 
-            />
-        }
+        />
+        // }
 
         // let obj = new Component();
         return (
             <div className="App">
                 <div className="nav-bar">
                     <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/new-book">New Book</a></li>
+                        <li><Link to="/">Home</Link></li>
+                        {/* <li><Link to="/New Book" >New Book</Link></li> */}
+
                     </ul>
                 </div>
+
                 <Routes>
-                    <Route path="/" exact render={() => books} />
-                    <Route path="/new-book" exactrender={() => <NewBook />} />
+                    <Route path="/books" exact element={() => books} />
+                    <Route path="/new-book" exact element={<NewBook />} />
+                    <Route path="/book/:id" exact element={<BookDetail book={this.state.selectedBook} />} />
+                    <Route path="/books" element={<Navigate to="/" />} />
                 </Routes>
 
-                {/* {books}
-                <NewBook /> */}
+                {books}
+                {/* <NewBook /> */}
+                {/* <BookDetail book={this.state.selectedBook} /> */}
 
                 {/* <h1>Persons Details </h1>
           <Person name="Rahim" age="20" />
