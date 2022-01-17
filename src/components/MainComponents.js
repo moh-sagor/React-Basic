@@ -121,7 +121,7 @@ class MainComponent extends Component {
                 </Routes>
 
                 {books}
-                {/* <NewBook /> */}
+                <NewBook />
                 {/* <BookDetail book={this.state.selectedBook} /> */}
 
                 {/* <h1>Persons Details </h1>
